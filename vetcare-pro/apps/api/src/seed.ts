@@ -11,7 +11,13 @@ const entities = [User, Tutor, Patient, MedicalRecord, Appointment, Notification
 async function run() {
   const ds = new DataSource(
     process.env.DATABASE_URL
-      ? { type: 'postgres', url: process.env.DATABASE_URL, entities, synchronize: true }
+      ? {
+          type: 'postgres',
+          url: process.env.DATABASE_URL,
+          entities,
+          synchronize: true,
+          ssl: process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: false } : false,
+        }
       : { type: 'better-sqlite3', database: join(process.cwd(), 'vetcare.sqlite'), entities, synchronize: true } as any,
   );
   await ds.initialize();

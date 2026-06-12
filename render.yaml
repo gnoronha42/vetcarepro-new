@@ -1,0 +1,54 @@
+# Blueprint Render — Postgres + API + Frontend
+# O Render exige este arquivo na raiz do repositório Git.
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: vetcare-api
+    runtime: docker
+    region: oregon
+    plan: free
+    dockerfilePath: ./vetcare-pro/apps/api/Dockerfile
+    dockerContext: ./vetcare-pro/apps/api
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES
+        value: 8h
+      - key: DATABASE_SSL
+        value: "true"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: vetcare-db
+          property: connectionString
+      # URL fixa do frontend (nome do serviço abaixo → vetcare-web.onrender.com)
+      - key: CORS_ORIGIN
+        value: https://vetcare-web.onrender.com
+
+  - type: web
+    name: vetcare-web
+    runtime: static
+    region: oregon
+    rootDir: vetcare-pro/apps/web
+    buildCommand: npm install && VITE_API_URL="${VETCARE_API_URL}/api" npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VETCARE_API_URL
+        fromService:
+          type: web
+          name: vetcare-api
+          envVarKey: RENDER_EXTERNAL_URL
+
+databases:
+  - name: vetcare-db
+    plan: free
+    region: oregon
+    databaseName: vetcare
+    user: vetcare
