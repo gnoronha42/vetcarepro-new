@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api, fmtDateTime } from '../lib/api';
 import { Modal, Empty } from '../components/ui';
+import { Icon } from '../components/icons';
 
 export default function Agenda() {
   const [items, setItems] = useState<any[]>([]);
@@ -56,7 +57,11 @@ export default function Agenda() {
                   <td className="flex gap">
                     {a.status === 'agendado' && <button className="btn ghost sm" onClick={() => setStatus(a.id, 'confirmado')}>Confirmar</button>}
                     {['agendado', 'confirmado'].includes(a.status) && <button className="btn ghost sm" onClick={() => setStatus(a.id, 'atendido')}>Atendido</button>}
-                    {a.status !== 'cancelado' && <button className="btn ghost sm" onClick={() => cancel(a.id)}>✕</button>}
+                    {a.status !== 'cancelado' && (
+                      <button className="btn ghost sm btn-icon" onClick={() => cancel(a.id)} title="Cancelar">
+                        <Icon name="close" size={14} />
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}

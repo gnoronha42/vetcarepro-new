@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { Icon } from './icons';
 
 export function Modal({ title, onClose, children, footer }: {
   title: string; onClose: () => void; children: ReactNode; footer?: ReactNode;
@@ -6,13 +7,15 @@ export function Modal({ title, onClose, children, footer }: {
   return (
     <div className="overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <div className="flex between pad" style={{ borderBottom: '1px solid var(--line)' }}>
-          <strong style={{ fontSize: 17 }}>{title}</strong>
-          <button className="btn ghost sm" onClick={onClose}>✕</button>
+        <div className="card-header">
+          <strong>{title}</strong>
+          <button className="btn ghost sm btn-icon" onClick={onClose}>
+            <Icon name="close" size={16} />
+          </button>
         </div>
         <div className="pad">{children}</div>
         {footer && (
-          <div className="flex between gap pad" style={{ borderTop: '1px solid var(--line)' }}>
+          <div className="flex between gap pad" style={{ borderTop: '1px solid var(--line-soft)' }}>
             {footer}
           </div>
         )}
@@ -21,23 +24,53 @@ export function Modal({ title, onClose, children, footer }: {
   );
 }
 
+const STAT_THEMES: Record<string, { accent: string; bg: string }> = {
+  teal: { accent: 'var(--accent)', bg: 'var(--accent-soft)' },
+  green: { accent: 'var(--success)', bg: 'var(--success-soft)' },
+  amber: { accent: 'var(--warning)', bg: 'var(--warning-soft)' },
+  coral: { accent: 'var(--danger)', bg: 'var(--danger-soft)' },
+  blue: { accent: 'var(--info)', bg: 'var(--info-soft)' },
+};
+
 export function Stat({ label, value, icon, tone = 'teal' }: {
   label: string; value: ReactNode; icon: string; tone?: string;
 }) {
-  const colors: Record<string, string> = {
-    teal: 'var(--teal-600)', coral: 'var(--coral)', amber: 'var(--amber)', green: 'var(--green)',
-  };
+  const theme = STAT_THEMES[tone] || STAT_THEMES.teal;
   return (
-    <div className="card pad" style={{ flex: 1, minWidth: 150 }}>
+    <div
+      className="stat-card animate-in"
+      style={{ '--stat-accent': theme.accent, '--stat-bg': theme.bg } as React.CSSProperties}
+    >
       <div className="flex between">
-        <span className="sub">{label}</span>
-        <span style={{ fontSize: 20 }}>{icon}</span>
+        <span className="stat-label">{label}</span>
+        <div className="stat-icon">
+          <Icon name={icon} size={18} />
+        </div>
       </div>
-      <div style={{ fontSize: 26, fontWeight: 800, marginTop: 6, color: colors[tone] }}>{value}</div>
+      <div className="stat-value">{value}</div>
     </div>
   );
 }
 
 export function Empty({ text }: { text: string }) {
-  return <div className="pad muted" style={{ textAlign: 'center', padding: '40px 20px' }}>🐾 {text}</div>;
+  return (
+    <div className="empty-state">
+      <div className="empty-icon">
+        <Icon name="search" size={22} />
+      </div>
+      <p>{text}</p>
+    </div>
+  );
+}
+
+export function Loading({ text = 'Carregando…' }: { text?: string }) {
+  return (
+    <div className="empty-state">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'center' }}>
+        <div className="skeleton" style={{ width: 48, height: 48, borderRadius: 12 }} />
+        <div className="skeleton" style={{ width: 160, height: 14 }} />
+        <p className="muted" style={{ fontSize: 13 }}>{text}</p>
+      </div>
+    </div>
+  );
 }

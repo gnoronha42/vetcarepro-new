@@ -40,10 +40,10 @@ export default function Billing() {
       </div>
 
       <div className="flex gap wrap mt">
-        <Stat label="Faturamento total" value={fmtMoney(summary.total)} icon="💰" tone="teal" />
-        <Stat label="Recebido" value={fmtMoney(summary.paid)} icon="✅" tone="green" />
-        <Stat label="Em aberto" value={fmtMoney(summary.open)} icon="⏳" tone="amber" />
-        <Stat label="Cobranças" value={summary.count} icon="🧾" tone="coral" />
+        <Stat label="Faturamento total" value={fmtMoney(summary.total)} icon="money" tone="teal" />
+        <Stat label="Recebido" value={fmtMoney(summary.paid)} icon="activity" tone="green" />
+        <Stat label="Em aberto" value={fmtMoney(summary.open)} icon="clock" tone="amber" />
+        <Stat label="Cobranças" value={summary.count} icon="billing" tone="blue" />
       </div>
 
       <div className="card mt">

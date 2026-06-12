@@ -38,14 +38,14 @@ export default function Inventory() {
       </div>
 
       <div className="flex gap wrap mt">
-        <Stat label="Itens cadastrados" value={items.length} icon="📦" tone="teal" />
-        <Stat label="Estoque baixo" value={low.length} icon="⚠️" tone="amber" />
-        <Stat label="Valor em estoque" value={fmtMoney(stockValue)} icon="💵" tone="green" />
+        <Stat label="Itens cadastrados" value={items.length} icon="inventory" tone="teal" />
+        <Stat label="Estoque baixo" value={low.length} icon="activity" tone="amber" />
+        <Stat label="Valor em estoque" value={fmtMoney(stockValue)} icon="money" tone="green" />
       </div>
 
       {low.length > 0 && (
-        <div className="card pad mt" style={{ borderLeft: '4px solid var(--amber)' }}>
-          <strong>⚠️ Reposição necessária:</strong>{' '}
+        <div className="card pad mt" style={{ borderLeft: '3px solid var(--warning)' }}>
+          <strong>Reposição necessária</strong>{' '}
           <span className="muted">{low.map((i) => `${i.name} (${i.quantity})`).join(', ')}</span>
         </div>
       )}

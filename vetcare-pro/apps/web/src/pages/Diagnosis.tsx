@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { api } from '../lib/api';
+import { Icon } from '../components/icons';
 
 export default function Diagnosis() {
   const [form, setForm] = useState({ species: 'Canino', symptoms: '', notes: '' });
@@ -25,8 +26,9 @@ export default function Diagnosis() {
           </div>
           <div className="field"><label>Sinais clínicos *</label><textarea rows={4} value={form.symptoms} onChange={(e) => setForm({ ...form, symptoms: e.target.value })} placeholder="Ex.: vômito, diarreia com sangue, apatia, filhote não vacinado…" /></div>
           <div className="field"><label>Observações</label><textarea rows={2} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} /></div>
-          <button className="btn coral" onClick={run} disabled={busy || !form.symptoms.trim()} style={{ width: '100%' }}>
-            🧠 {busy ? 'Analisando…' : 'Gerar hipóteses'}
+          <button className="btn" onClick={run} disabled={busy || !form.symptoms.trim()} style={{ width: '100%' }}>
+            <Icon name="sparkles" size={16} />
+            {busy ? 'Analisando…' : 'Gerar hipóteses'}
           </button>
         </div>
 
@@ -35,10 +37,10 @@ export default function Diagnosis() {
           {!res && <p className="sub mt">Preencha os sinais e clique em gerar.</p>}
           {res && res.results.length === 0 && <p className="sub mt">Nenhuma hipótese reconhecida. Refine os sinais clínicos descritos.</p>}
           {res?.results.map((r: any, i: number) => (
-            <div key={i} className="card pad" style={{ marginTop: 12, borderLeft: `4px solid ${r.hasRedFlags ? 'var(--red)' : 'var(--teal-500)'}` }}>
+            <div key={i} className="card pad" style={{ marginTop: 12, borderLeft: `3px solid ${r.hasRedFlags ? 'var(--danger)' : 'var(--accent)'}` }}>
               <div className="flex between">
                 <strong>{r.condition}</strong>
-                <span className={`badge ${r.hasRedFlags ? 'red' : 'green'}`}>{r.confidence}%{r.hasRedFlags ? ' ⚠ grave' : ''}</span>
+                <span className={`badge ${r.hasRedFlags ? 'red' : 'green'}`}>{r.confidence}%{r.hasRedFlags ? ' · grave' : ''}</span>
               </div>
               <div className="flex gap wrap" style={{ marginTop: 6 }}>{r.matchedSigns.map((s: string) => <span key={s} className="badge gray" style={{ fontSize: 11 }}>{s}</span>)}</div>
               <p className="sub" style={{ marginTop: 8 }}>{r.recommendation}</p>
