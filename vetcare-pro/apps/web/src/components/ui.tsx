@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { Icon } from './icons';
 
 export function Modal({ title, onClose, children, footer, size = 'md' }: {
@@ -8,6 +8,11 @@ export function Modal({ title, onClose, children, footer, size = 'md' }: {
   footer?: ReactNode;
   size?: 'md' | 'lg';
 }) {
+  useEffect(() => {
+    document.body.classList.add('modal-open');
+    return () => document.body.classList.remove('modal-open');
+  }, []);
+
   return (
     <div className="overlay" onClick={onClose}>
       <div className={`modal modal-${size}`} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">

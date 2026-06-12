@@ -385,11 +385,11 @@ input, select, textarea { font-family: inherit; font-size: 14px; }
   background: rgba(15, 23, 42, 0.5);
   backdrop-filter: blur(4px);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding: 24px 16px;
+  padding: 16px;
   z-index: 50;
-  overflow-y: auto;
+  overflow: hidden;
   animation: fadeIn 0.2s var(--ease);
 }
 
@@ -398,8 +398,8 @@ input, select, textarea { font-family: inherit; font-size: 14px; }
   border-radius: var(--radius-xl);
   width: 100%;
   max-width: 520px;
-  max-height: calc(100vh - 48px);
-  margin: auto;
+  height: auto;
+  max-height: calc(100dvh - 32px);
   display: flex;
   flex-direction: column;
   box-shadow: var(--shadow-xl);
@@ -440,9 +440,16 @@ input, select, textarea { font-family: inherit; font-size: 14px; }
   justify-content: flex-end;
   gap: 10px;
   padding: 14px 20px;
+  padding-bottom: max(14px, env(safe-area-inset-bottom));
   border-top: 1px solid var(--line-soft);
   background: var(--bg);
   border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
 }
 
 /* ---- Empty / Loading ---- */
@@ -837,4 +844,42 @@ input, select, textarea { font-family: inherit; font-size: 14px; }
   .hide-sm { display: none; }
   .app-content { padding: 20px 16px; }
   .login-form-card { padding: 28px 24px; }
+
+  /* Modal fullscreen no mobile — um único scroll */
+  .overlay {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .modal,
+  .modal-lg {
+    max-width: none;
+    width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  .modal-header {
+    padding: 16px;
+    padding-top: max(16px, env(safe-area-inset-top));
+  }
+
+  .modal-body {
+    padding: 16px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+    border-radius: 0;
+    padding: 12px 16px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
+  .modal-footer .btn {
+    width: 100%;
+  }
 }
