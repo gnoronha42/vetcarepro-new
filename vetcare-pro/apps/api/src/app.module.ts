@@ -19,6 +19,7 @@ import { BillingModule } from './billing/billing.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { ReportsModule } from './reports/reports.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
+import { HealthController } from './health.controller';
 
 const entities = [User, Tutor, Patient, MedicalRecord, Appointment, Notification, Invoice, InventoryItem];
 
@@ -46,6 +47,7 @@ const entities = [User, Tutor, Patient, MedicalRecord, Appointment, Notification
     AuthModule, TutorsModule, PatientsModule, RecordsModule, AppointmentsModule,
     AiModule, NotificationsModule, BillingModule, InventoryModule, ReportsModule, ChatbotModule,
   ],
+  controllers: [HealthController],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class AppModule {}
