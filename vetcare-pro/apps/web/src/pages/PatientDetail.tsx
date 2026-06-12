@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { api, fmtDate, fmtDateTime } from '../lib/api';
 import { Modal, Empty } from '../components/ui';
+import { Icon } from '../components/icons';
 
 export default function PatientDetail() {
   const { id } = useParams();
@@ -39,30 +40,30 @@ export default function PatientDetail() {
 
   return (
     <div>
-      <Link to="/pacientes" className="btn ghost sm">← Pacientes</Link>
+      <Link to="/pacientes" className="btn ghost sm"><Icon name="back" size={14} /> Pacientes</Link>
 
       <div className="card pad mt2 flex between wrap gap">
         <div className="flex gap">
-          <div style={{ width: 60, height: 60, borderRadius: 16, background: 'var(--teal-50)', display: 'grid', placeItems: 'center', fontSize: 30 }}>
-            {p.species === 'Felino' ? '🐱' : p.species === 'Ave' ? '🦜' : '🐶'}
+          <div style={{ width: 60, height: 60, borderRadius: 16, background: 'var(--accent-soft)', color: 'var(--accent)', display: 'grid', placeItems: 'center' }}>
+            <Icon name={p.species === 'Felino' ? 'cat' : p.species === 'Ave' ? 'bird' : 'dog'} size={30} />
           </div>
           <div>
             <div className="title">{p.name}</div>
             <div className="sub">{p.species} {p.breed ? `· ${p.breed}` : ''} {p.sex ? `· ${p.sex}` : ''} {age !== null ? `· ${age} ano(s)` : ''}</div>
             <div className="flex gap wrap" style={{ marginTop: 8 }}>
-              {p.weightKg && <span className="badge">⚖ {p.weightKg} kg</span>}
-              {p.microchip && <span className="badge gray">🔖 {p.microchip}</span>}
-              {p.tutor && <span className="badge coral">👤 {p.tutor.name}</span>}
+              {p.weightKg && <span className="badge"><Icon name="weight" size={12} /> {p.weightKg} kg</span>}
+              {p.microchip && <span className="badge gray"><Icon name="tag" size={12} /> {p.microchip}</span>}
+              {p.tutor && <span className="badge blue"><Icon name="user" size={12} /> {p.tutor.name}</span>}
             </div>
           </div>
         </div>
-        <button className="btn" onClick={() => setShow(true)}>+ Nova consulta</button>
+        <button className="btn" onClick={() => setShow(true)}><Icon name="plus" size={16} /> Nova consulta</button>
       </div>
 
-      <div className="mt2"><strong style={{ fontSize: 17 }}>Histórico clínico</strong></div>
+      <div className="mt2"><strong style={{ fontSize: 16 }}>Histórico clínico</strong></div>
       <div className="mt">
         {(!p.records || p.records.length === 0) ? <Empty text="Nenhum registro no prontuário." /> : p.records.map((r: any) => (
-          <div key={r.id} className="card pad" style={{ marginBottom: 12, borderLeft: '4px solid var(--teal-500)' }}>
+          <div key={r.id} className="card pad" style={{ marginBottom: 12, borderLeft: '3px solid var(--accent)' }}>
             <div className="flex between wrap">
               <span className="badge" style={{ textTransform: 'capitalize' }}>{r.type}</span>
               <span className="muted" style={{ fontSize: 13 }}>{fmtDateTime(r.createdAt)} {r.vetName ? `· ${r.vetName}` : ''}</span>
@@ -71,12 +72,12 @@ export default function PatientDetail() {
             {r.symptoms && <p style={{ fontSize: 14 }}><strong>Sinais:</strong> {r.symptoms}</p>}
             {r.physicalExam && <p style={{ fontSize: 14 }}><strong>Exame físico:</strong> {r.physicalExam}</p>}
             {r.diagnosis && <p style={{ fontSize: 14 }}><strong>Diagnóstico:</strong> {r.diagnosis}</p>}
-            {r.aiSuggestion && <p style={{ fontSize: 13 }} className="muted">🧠 IA sugeriu: {r.aiSuggestion}</p>}
+            {r.aiSuggestion && <p style={{ fontSize: 13 }} className="muted flex gap"><Icon name="sparkles" size={14} /> IA sugeriu: {r.aiSuggestion}</p>}
             {r.treatment && <p style={{ fontSize: 14 }}><strong>Conduta:</strong> {r.treatment}</p>}
             <div className="flex gap wrap muted" style={{ fontSize: 13, marginTop: 6 }}>
-              {r.weightKg && <span>⚖ {r.weightKg} kg</span>}
-              {r.temperatureC && <span>🌡 {r.temperatureC} °C</span>}
-              {r.followUpDate && <span>↩ retorno {fmtDate(r.followUpDate)}</span>}
+              {r.weightKg && <span className="flex gap" style={{ gap: 4 }}><Icon name="weight" size={13} /> {r.weightKg} kg</span>}
+              {r.temperatureC && <span className="flex gap" style={{ gap: 4 }}><Icon name="thermometer" size={13} /> {r.temperatureC} °C</span>}
+              {r.followUpDate && <span className="flex gap" style={{ gap: 4 }}><Icon name="calendar" size={13} /> retorno {fmtDate(r.followUpDate)}</span>}
             </div>
           </div>
         ))}
@@ -94,20 +95,20 @@ export default function PatientDetail() {
           <div className="field">
             <label>Sinais clínicos (separe por vírgula)</label>
             <textarea rows={2} value={rec.symptoms || ''} onChange={(e) => setRec({ ...rec, symptoms: e.target.value })} placeholder="vômito, apatia, anorexia…" />
-            <button className="btn coral sm" style={{ marginTop: 8 }} onClick={suggestAI} disabled={aiBusy || !rec.symptoms}>
-              🧠 {aiBusy ? 'Analisando…' : 'Sugerir diagnóstico (IA)'}
+            <button className="btn sm" style={{ marginTop: 8 }} onClick={suggestAI} disabled={aiBusy || !rec.symptoms}>
+              <Icon name="sparkles" size={14} /> {aiBusy ? 'Analisando…' : 'Sugerir diagnóstico (IA)'}
             </button>
           </div>
 
           {ai && (
-            <div className="card pad" style={{ background: 'var(--teal-50)', borderColor: 'var(--teal-100)', marginBottom: 14 }}>
+            <div className="card pad" style={{ background: 'var(--accent-soft)', borderColor: 'rgba(37,99,235,0.15)', marginBottom: 14 }}>
               <strong style={{ fontSize: 14 }}>Sugestões da IA</strong>
               {ai.results.length === 0 ? <p className="sub mt">Nenhuma hipótese reconhecida. Refine os sinais.</p> :
                 ai.results.map((res: any, i: number) => (
-                  <div key={i} style={{ marginTop: 10, paddingTop: 10, borderTop: i ? '1px solid var(--teal-100)' : 'none' }}>
+                  <div key={i} style={{ marginTop: 10, paddingTop: 10, borderTop: i ? '1px solid rgba(37,99,235,0.15)' : 'none' }}>
                     <div className="flex between">
                       <strong style={{ fontSize: 14 }}>{res.condition}</strong>
-                      <span className={`badge ${res.hasRedFlags ? 'red' : 'green'}`}>{res.confidence}%{res.hasRedFlags ? ' ⚠' : ''}</span>
+                      <span className={`badge ${res.hasRedFlags ? 'red' : 'green'}`}>{res.confidence}%{res.hasRedFlags ? ' · grave' : ''}</span>
                     </div>
                     <p className="sub" style={{ marginTop: 4 }}>{res.recommendation}</p>
                     <p className="muted" style={{ fontSize: 12, marginTop: 4 }}>Exames: {res.suggestedExams.join(', ')}</p>

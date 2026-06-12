@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api, fmtMoney, fmtDate } from '../lib/api';
 import { Modal, Empty, Stat } from '../components/ui';
+import { Icon } from '../components/icons';
 
 const STATUS_BADGE: Record<string, string> = {
   aberta: 'badge amber', paga: 'badge green', cancelada: 'badge red',
@@ -60,7 +61,7 @@ export default function Billing() {
                   <td className="hide-sm muted" style={{ fontSize: 12 }}>{i.paidAt ? fmtDate(i.paidAt) : '—'}</td>
                   <td className="flex gap">
                     {i.status === 'aberta' && <button className="btn sm" onClick={() => pay(i.id)}>Receber</button>}
-                    <button className="btn ghost sm" onClick={() => remove(i.id)}>🗑</button>
+                    <button className="btn ghost sm btn-icon" onClick={() => remove(i.id)} title="Excluir"><Icon name="trash" size={14} /></button>
                   </td>
                 </tr>
               ))}

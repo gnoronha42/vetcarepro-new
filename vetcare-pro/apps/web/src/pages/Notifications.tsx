@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { api, fmtDateTime } from '../lib/api';
 import { Modal, Empty } from '../components/ui';
+import { Icon } from '../components/icons';
 
 const KIND_BADGE: Record<string, string> = {
   lembrete: 'badge', vacina: 'badge green', retorno: 'badge amber',
-  financeiro: 'badge coral', geral: 'badge gray',
+  financeiro: 'badge blue', geral: 'badge gray',
 };
 const STATUS_BADGE: Record<string, string> = {
   pendente: 'badge amber', enviada: 'badge', lida: 'badge green',
@@ -55,8 +56,8 @@ export default function Notifications() {
                   <td className="hide-sm muted" style={{ fontSize: 12 }}>{fmtDateTime(n.createdAt)}</td>
                   <td className="flex gap">
                     {n.status !== 'enviada' && <button className="btn ghost sm" onClick={() => setStatus(n.id, 'enviada')}>Enviar</button>}
-                    {n.status !== 'lida' && <button className="btn ghost sm" onClick={() => setStatus(n.id, 'lida')}>✓ Lida</button>}
-                    <button className="btn ghost sm" onClick={() => remove(n.id)}>🗑</button>
+                    {n.status !== 'lida' && <button className="btn ghost sm" onClick={() => setStatus(n.id, 'lida')}><Icon name="check" size={14} /> Lida</button>}
+                    <button className="btn ghost sm btn-icon" onClick={() => remove(n.id)} title="Excluir"><Icon name="trash" size={14} /></button>
                   </td>
                 </tr>
               ))}

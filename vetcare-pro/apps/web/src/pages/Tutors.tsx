@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../lib/api';
 import { Modal, Empty } from '../components/ui';
+import { Icon } from '../components/icons';
 
 export default function Tutors() {
   const [items, setItems] = useState<any[]>([]);
@@ -25,7 +26,10 @@ export default function Tutors() {
         <button className="btn" onClick={() => { setForm({}); setShow(true); }}>+ Novo tutor</button>
       </div>
 
-      <input className="input mt2" placeholder="🔎 Buscar por nome ou telefone…" value={q} onChange={(e) => setQ(e.target.value)} style={{ maxWidth: 360 }} />
+      <div className="search-box mt2">
+        <Icon name="search" size={16} />
+        <input className="input" placeholder="Buscar por nome ou telefone…" value={q} onChange={(e) => setQ(e.target.value)} />
+      </div>
 
       <div className="card mt">
         {items.length === 0 ? <Empty text="Nenhum tutor cadastrado." /> : (
@@ -39,8 +43,8 @@ export default function Tutors() {
                   <td className="hide-sm muted">{t.document || '—'}</td>
                   <td><span className="badge">{t.patients?.length ?? 0}</span></td>
                   <td className="flex gap">
-                    <button className="btn ghost sm" onClick={() => { setForm(t); setShow(true); }}>Editar</button>
-                    <button className="btn ghost sm" onClick={() => remove(t.id)}>🗑</button>
+                    <button className="btn ghost sm" onClick={() => { setForm(t); setShow(true); }}><Icon name="edit" size={14} /> Editar</button>
+                    <button className="btn ghost sm btn-icon" onClick={() => remove(t.id)} title="Excluir"><Icon name="trash" size={14} /></button>
                   </td>
                 </tr>
               ))}

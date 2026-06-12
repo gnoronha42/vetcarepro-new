@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api, fmtMoney, fmtDate } from '../lib/api';
 import { Modal, Empty, Stat } from '../components/ui';
+import { Icon } from '../components/icons';
 
 export default function Inventory() {
   const [items, setItems] = useState<any[]>([]);
@@ -65,12 +66,12 @@ export default function Inventory() {
                     <td className="hide-sm">{fmtMoney(i.unitPrice)}</td>
                     <td className="hide-sm muted" style={{ fontSize: 12 }}>{i.expiresAt ? fmtDate(i.expiresAt) : '—'}</td>
                     <td className="flex gap">
-                      <button className="btn ghost sm" onClick={() => move(i.id, -1)}>−</button>
-                      <button className="btn ghost sm" onClick={() => move(i.id, 1)}>+</button>
+                      <button className="btn ghost sm btn-icon" onClick={() => move(i.id, -1)} title="Remover 1"><Icon name="minus" size={14} /></button>
+                      <button className="btn ghost sm btn-icon" onClick={() => move(i.id, 1)} title="Adicionar 1"><Icon name="plus" size={14} /></button>
                     </td>
                     <td className="flex gap">
-                      <button className="btn ghost sm" onClick={() => { setForm(i); setShow(true); }}>Editar</button>
-                      <button className="btn ghost sm" onClick={() => remove(i.id)}>🗑</button>
+                      <button className="btn ghost sm" onClick={() => { setForm(i); setShow(true); }}><Icon name="edit" size={14} /> Editar</button>
+                      <button className="btn ghost sm btn-icon" onClick={() => remove(i.id)} title="Excluir"><Icon name="trash" size={14} /></button>
                     </td>
                   </tr>
                 );

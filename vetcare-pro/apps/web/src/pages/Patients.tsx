@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api, fmtDate } from '../lib/api';
 import { Modal, Empty } from '../components/ui';
+import { Icon } from '../components/icons';
 
 const SPECIES = ['Canino', 'Felino', 'Ave', 'Roedor', 'Réptil', 'Outro'];
 
@@ -31,7 +32,10 @@ export default function Patients() {
         <button className="btn" onClick={() => { setForm({ species: 'Canino' }); setShow(true); }}>+ Novo paciente</button>
       </div>
 
-      <input className="input mt2" placeholder="🔎 Buscar por nome, espécie ou microchip…" value={q} onChange={(e) => setQ(e.target.value)} style={{ maxWidth: 380 }} />
+      <div className="search-box mt2">
+        <Icon name="search" size={16} />
+        <input className="input" placeholder="Buscar por nome, espécie ou microchip…" value={q} onChange={(e) => setQ(e.target.value)} />
+      </div>
 
       <div className="card mt">
         {items.length === 0 ? <Empty text="Nenhum paciente cadastrado." /> : (
@@ -44,7 +48,7 @@ export default function Patients() {
                   <td><span className="badge">{p.species}</span></td>
                   <td className="hide-sm">{p.tutor?.name || '—'}</td>
                   <td className="hide-sm muted" style={{ fontSize: 13 }}>{p.microchip || '—'}</td>
-                  <td><button className="btn ghost sm">Abrir →</button></td>
+                  <td><button className="btn ghost sm">Abrir <Icon name="arrowRight" size={14} /></button></td>
                 </tr>
               ))}
             </tbody>
