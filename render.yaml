@@ -31,7 +31,6 @@ services:
   - type: web
     name: vetcare-web
     runtime: static
-    region: oregon
     rootDir: vetcare-pro/apps/web
     buildCommand: npm install && VITE_API_URL="${VETCARE_API_URL}/api" npm run build
     staticPublishPath: dist
