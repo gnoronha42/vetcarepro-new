@@ -1,24 +1,24 @@
 import { ReactNode } from 'react';
 import { Icon } from './icons';
 
-export function Modal({ title, onClose, children, footer }: {
-  title: string; onClose: () => void; children: ReactNode; footer?: ReactNode;
+export function Modal({ title, onClose, children, footer, size = 'md' }: {
+  title: string;
+  onClose: () => void;
+  children: ReactNode;
+  footer?: ReactNode;
+  size?: 'md' | 'lg';
 }) {
   return (
     <div className="overlay" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <div className="card-header">
+      <div className={`modal modal-${size}`} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+        <div className="modal-header">
           <strong>{title}</strong>
-          <button className="btn ghost sm btn-icon" onClick={onClose}>
+          <button className="btn ghost sm btn-icon" onClick={onClose} aria-label="Fechar">
             <Icon name="close" size={16} />
           </button>
         </div>
-        <div className="pad">{children}</div>
-        {footer && (
-          <div className="flex between gap pad" style={{ borderTop: '1px solid var(--line-soft)' }}>
-            {footer}
-          </div>
-        )}
+        <div className="modal-body">{children}</div>
+        {footer && <div className="modal-footer">{footer}</div>}
       </div>
     </div>
   );

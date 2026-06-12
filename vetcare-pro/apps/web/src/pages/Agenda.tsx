@@ -71,8 +71,12 @@ export default function Agenda() {
       </div>
 
       {show && (
-        <Modal title="Novo agendamento" onClose={() => setShow(false)}
-          footer={<><button className="btn ghost" onClick={() => setShow(false)}>Cancelar</button><button className="btn" onClick={save} disabled={!form.patientId || !form.startsAt}>Agendar</button></>}>
+        <Modal
+          title="Novo agendamento"
+          size="lg"
+          onClose={() => setShow(false)}
+          footer={<><button className="btn ghost" onClick={() => setShow(false)}>Cancelar</button><button className="btn" onClick={save} disabled={!form.patientId || !form.startsAt}>Agendar</button></>}
+        >
           <div className="field"><label>Paciente *</label><select value={form.patientId || ''} onChange={(e) => setForm({ ...form, patientId: e.target.value })}><option value="">Selecione…</option>{patients.map((p) => <option key={p.id} value={p.id}>{p.name} — {p.tutor?.name || 's/ tutor'}</option>)}</select></div>
           <div className="row">
             <div className="field"><label>Tipo</label><select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}><option>consulta</option><option>retorno</option><option>vacina</option><option>exame</option><option>cirurgia</option><option>banho</option></select></div>

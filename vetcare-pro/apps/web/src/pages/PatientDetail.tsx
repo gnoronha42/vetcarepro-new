@@ -83,8 +83,12 @@ export default function PatientDetail() {
       </div>
 
       {show && (
-        <Modal title={`Nova consulta — ${p.name}`} onClose={() => setShow(false)}
-          footer={<><button className="btn ghost" onClick={() => setShow(false)}>Cancelar</button><button className="btn" onClick={saveRec}>Salvar consulta</button></>}>
+        <Modal
+          title={`Nova consulta — ${p.name}`}
+          size="lg"
+          onClose={() => setShow(false)}
+          footer={<><button className="btn ghost" onClick={() => setShow(false)}>Cancelar</button><button className="btn" onClick={saveRec}>Salvar consulta</button></>}
+        >
           <div className="field"><label>Tipo</label><select value={rec.type} onChange={(e) => setRec({ ...rec, type: e.target.value })}><option>consulta</option><option>vacina</option><option>exame</option><option>cirurgia</option><option>retorno</option></select></div>
           <div className="field"><label>Anamnese / queixa</label><textarea rows={2} value={rec.anamnesis || ''} onChange={(e) => setRec({ ...rec, anamnesis: e.target.value })} /></div>
           <div className="field">
